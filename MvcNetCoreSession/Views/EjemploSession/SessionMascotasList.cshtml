@@ -1,0 +1,24 @@
+﻿<h1>Session Lista Objetos</h1>
+
+<p>Esta es una vista que muestra un ejemplo de uso de la sesión de ASP.NET Core.</p>
+
+<p>En este caso, se está utilizando la sesión para almacenar un valor de tipo <code>List Mascota</code>.</p>
+
+<p>
+    <a asp-controller="EjemploSession" asp-action="SessionMascotasList" asp-route-accion="almacenar">Establecer valor</a>
+</p>
+<p>
+    <a asp-controller="EjemploSession" asp-action="SessionMascotasList" asp-route-accion="mostrar">Mostrar valor</a>
+</p>
+
+<h3>@ViewData["MENSAJE"]</h3>
+
+@if(ViewData["MASCOTAS"] != null) {
+    @foreach (Mascota mascota in (List<Mascota>)ViewData["MASCOTAS"])
+    {
+        <hr />
+        <h2>@mascota.Nombre</h2>
+        <h2>@mascota.Raza</h2>
+        <h2>@mascota.Edad</h2>
+    }
+}

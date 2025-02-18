@@ -1,0 +1,17 @@
+﻿<h1>Session Objeto</h1>
+
+<p>Esta es una vista que muestra un ejemplo de uso de la sesión de ASP.NET Core.</p>
+
+<p>En este caso, se está utilizando la sesión para almacenar un valor de tipo <code>Mascota</code>.</p>
+
+<p>
+    <a asp-controller="EjemploSession" asp-action="SessionMascota" asp-route-accion="almacenar">Establecer valor</a>
+</p>
+<p>
+    <a asp-controller="EjemploSession" asp-action="SessionMascota" asp-route-accion="mostrar">Mostrar valor</a>
+</p>
+
+<h3>@ViewData["MENSAJE"]</h3>
+<h2>@ViewData["NOMBRE"]</h2>
+<h2>@ViewData["RAZA"]</h2>
+<h2>@ViewData["EDAD"]</h2>
