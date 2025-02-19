@@ -1,15 +1,24 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using MvcNetCoreSession.Extensions;
 using MvcNetCoreSession.Models;
 
 namespace MvcNetCoreSession.Controllers
 {
     public class EjemploSessionController : Controller
     {
+
+        HelperSessionContextAccessor helper;
+
+        public EjemploSessionController(HelperSessionContextAccessor helper)
+        {
+            this.helper = helper;
+        }
         public IActionResult Index()
         {
-            return View();
+            List<Mascota> mascotas = helper.GetMascotasSession();
+            return View(mascotas);
         }
 
         public IActionResult SessionMascota(string accion)
@@ -23,14 +32,13 @@ namespace MvcNetCoreSession.Controllers
                         Raza = "Pastor Alemán",
                         Edad = 3,
                     };
-                    string datos = Helpers.HelperJsonSession.ObjectToByte(mascota);
-                    HttpContext.Session.SetString("mascota", datos);
+                    SessionExtension.SetObject(HttpContext.Session, "mascota", mascota);
                     ViewData["MENSAJE"] = "Datos almacenados en la sesión";
                 }
                 if (accion.ToLower() == "mostrar")
                 {
                     string datos = HttpContext.Session.GetString("mascota");
-                    Mascota mascota = Helpers.HelperJsonSession.ByteToObject<Mascota>(datos);
+                    Mascota mascota = SessionExtension.GetObject<Mascota>(HttpContext.Session, "mascota");
                     ViewData["NOMBRE"] = mascota.Nombre;
                     ViewData["RAZA"] = mascota.Raza;
                     ViewData["EDAD"] = mascota.Edad;
@@ -49,14 +57,13 @@ namespace MvcNetCoreSession.Controllers
                     mascotas.Add(new Mascota { Nombre = "Firulais", Raza = "Pastor Alemán", Edad = 3 });
                     mascotas.Add(new Mascota { Nombre = "Rex", Raza = "Bulldog", Edad = 2 });
                     mascotas.Add(new Mascota { Nombre = "Toby", Raza = "Poodle", Edad = 1 });
-                    string datos = Helpers.HelperJsonSession.ObjectToByte(mascotas);
-                    HttpContext.Session.SetString("mascotas", datos);
+                    SessionExtension.SetObject(HttpContext.Session, "mascotas", mascotas);
                     ViewData["MENSAJE"] = "Datos almacenados en la sesión";
                 }
                 if (accion.ToLower() == "mostrar")
                 {
                     string datos = HttpContext.Session.GetString("mascotas");
-                    List<Mascota> mascotas = Helpers.HelperJsonSession.ByteToObject<List<Mascota>>(datos);
+                    List<Mascota> mascotas = SessionExtension.GetObject<List<Mascota>>(HttpContext.Session, "mascotas");
                     ViewData["Mascotas"] = mascotas;
                 }
             }

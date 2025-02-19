@@ -1,24 +1,15 @@
-﻿@using MvcNetCoreSession.Helpers
+﻿@using MvcNetCoreSession.Extensions
+@model List<Mascota>
 
 @{
-    string data = Context.Session.GetString("mascota");
-    Mascota mascota = null;
-    if (data != null)
-    {
-        mascota = (Mascota)HelperJsonSession.ByteToObject<Mascota>(data);
-    }
+    List<Mascota> mascotas = SessionExtension.GetObject<List<Mascota>>(Context.Session, "mascotas");
 }
 
 <h1>Ejemplos Session</h1>
 
 <h3>@Context.Session.GetString("nombre")</h3>
 <h3>@Context.Session.GetString("hora")</h3>
-@if (mascota != null)
-{
-    <h2>@mascota.Nombre</h2>
-    <h2>@mascota.Raza</h2>
-    <h2>@mascota.Edad</h2>
-}
+
 
 <ul class="list-group">
     <li class="list-group-item">
@@ -31,3 +22,14 @@
         <a asp-controller="EjemploSession" asp-action="SessionMascotasList">Session Mascotas List</a>
     </li>
 </ul>
+
+@if (Model != null)
+{
+    @foreach (Mascota mascota in Model)
+    {
+        <hr />
+        <h2>@mascota.Nombre</h2>
+        <h2>@mascota.Raza</h2>
+        <h2>@mascota.Edad</h2>
+    }
+}
